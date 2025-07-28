@@ -8,6 +8,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentForm from "./features/students/StudentForm.jsx";
 import StudentDetail from "./features/students/StudentDetail.jsx";
+import ClassView from "./features/class/ClassView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/student/:studentId",
     element: <StudentDetail />,
+  },
+  {
+    path: "/class",
+    element: <ClassView />,
   },
 ]);
 createRoot(document.getElementById("root")).render(

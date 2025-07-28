@@ -31,10 +31,17 @@ app.get("/students", async (req, res) => {
 });
 
 app.post("/students", async (req, res) => {
-  const { name, age, grade } = req.body;
+  const { name, age, grade, marks, attendance, gender } = req.body;
 
   try {
-    const student = new Student({ name, age, grade });
+    const student = new Student({
+      name,
+      age,
+      grade,
+      attendance,
+      gender,
+      marks,
+    });
     await student.save();
     res.status(201).json(student);
   } catch (error) {

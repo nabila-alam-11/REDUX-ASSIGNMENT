@@ -7,7 +7,6 @@ export const fetchStudents = createAsyncThunk(
     const response = await axios.get(
       "https://redux-assignment-rose.vercel.app/students"
     );
-    // console.log(response.data);
     return response.data;
   }
 );
@@ -27,7 +26,6 @@ export const deleteStudentAsync = createAsyncThunk(
     const response = await axios.delete(
       `https://redux-assignment-rose.vercel.app/students/${studentId}`
     );
-    console.log(response.data);
     return response.data;
   }
 );
@@ -37,8 +35,17 @@ export const studentsSlice = createSlice({
     students: [],
     status: "idle",
     error: null,
+    filter: "All",
+    sortBy: "name",
   },
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+    setSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchStudents.pending, (state) => {
       state.status = "loading";
@@ -63,4 +70,5 @@ export const studentsSlice = createSlice({
     });
   },
 });
+export const { setFilter, setSortBy } = studentsSlice.reducer;
 export default studentsSlice.reducer;
