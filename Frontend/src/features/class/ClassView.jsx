@@ -37,8 +37,8 @@ const ClassView = () => {
         <ul>
           {students.map((student) => (
             <li key={student._id}>
-              {student.name} - {student.gender} - {student.marks} -
-              {student.attendance}
+              {student.name} - {student.gender} - Marks: {student.marks} -
+              Attendance: {student.attendance}
             </li>
           ))}
         </ul>
