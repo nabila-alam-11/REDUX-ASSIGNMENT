@@ -70,5 +70,5 @@ export const studentsSlice = createSlice({
     });
   },
 });
-export const { setFilter, setSortBy } = studentsSlice.reducer;
+export const { setFilter, setSortBy } = studentsSlice.actions;
 export default studentsSlice.reducer;
