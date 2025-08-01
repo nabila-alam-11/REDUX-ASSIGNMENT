@@ -4,6 +4,7 @@ const app = express();
 
 const { initializeDatabase } = require("./db/db.connection");
 const Student = require("./models/students.model");
+const Teacher = require("./models/teachers.model");
 
 const corsOptions = {
   origin: "*",
@@ -85,6 +86,75 @@ app.delete("/students/:id", async (req, res) => {
       message: "Student deleted successfully",
       student: deletedStudent,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Teachers
+
+app.get("/teachers", async (req, res) => {
+  try {
+    const teachers = await Teacher.find();
+    res.json(teachers);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/teachers", async (req, res) => {
+  const { name, age, gender, subjectSpeacialities, email } = req.body;
+  try {
+    const teacher = new Teacher({
+      name,
+      age,
+      gender,
+      subjectSpeacialities,
+      email,
+    });
+    await teacher.save();
+    res.status(201).json(teacher);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Interval Server error" });
+  }
+});
+
+app.put("/teachers/:id", async (req, res) => {
+  const teacherId = req.params.id;
+  const updatedTeacherData = req.body;
+
+  try {
+    const updatedTeacher = await Teacher.findByIdAndDelete(
+      teacherId,
+      updatedTeacherData,
+      { new: true }
+    );
+    if (!updatedTeacher) {
+      res.status(404).json({ error: "Teacher not found" });
+    }
+    res.status(200).json(updatedTeacher);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+app.delete("/teachers/:id", async (req, res) => {
+  const teacherId = req.params.id;
+  try {
+    const deletedTeacher = await Teacher.findByIdAndDelete(teacherId);
+    if (!deletedTeacher) {
+      res.status(404).json({ error: "Teacher not found." });
+    } else {
+      res
+        .status(200)
+        .json({
+          message: "Teacher deleted successfully.",
+          teacher: deletedTeacher,
+        });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
